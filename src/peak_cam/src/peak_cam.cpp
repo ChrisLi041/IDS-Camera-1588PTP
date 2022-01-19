@@ -407,7 +407,7 @@ void Peak_Cam::acquisitionLoop()
                 m_nodeMapRemoteDevice->FindNode<peak::core::nodes::BooleanNode>("PtpSlaveOnly")->SetValue(peak_params.PtpSlaveOnly);
             }
             // get buffer from data stream and process it
-            auto buffer = m_dataStream->WaitForFinishedBuffer(10000); //was 5000
+            auto buffer = m_dataStream->WaitForFinishedBuffer(15000); //was 5000
             
             // auto ts = 0;
             if (buffer->HasChunks()&&m_nodeMapRemoteDevice->FindNode<peak::core::nodes::EnumerationNode>("PtpStatus")->CurrentEntry()->SymbolicValue() != "")
@@ -460,18 +460,20 @@ void Peak_Cam::acquisitionLoop()
         }
         catch (const std::exception& e)
         {
-            if (banner == 1)
-            {
-                ROS_ERROR_STREAM("[PEAK_CAM]: EXCEPTION: " << e.what());
-                ROS_ERROR("[PEAK_CAM]: Acquisition loop stopped, device may be disconnected!");
-                ROS_ERROR("[PEAK_CAM]: No device reset available");
-                ROS_ERROR("[PEAK_CAM]: Restart peak cam node!");
-            }
-            else
-            {
-                banner = 1;
-                ROS_INFO_STREAM_ONCE("[PEAK_CAM]: Waiting for PTP ... ...");
-            };
+            // if (banner == 1)
+            // {
+            ROS_ERROR_STREAM("[PEAK_CAM]: EXCEPTION: " << e.what());
+            ROS_ERROR("[PEAK_CAM]: Acquisition loop stopped, device may be disconnected!");
+            ROS_ERROR("[PEAK_CAM]: No device reset available");
+            ROS_ERROR("[PEAK_CAM]: Restart peak cam node!");
+            acquisitionLoop_running = false;
+        
+            // }
+            // else
+            // {
+            //     banner = 1;
+            //     ROS_INFO_STREAM_ONCE("[PEAK_CAM]: Waiting for PTP ... ...");
+            // };
             // ROS_ERROR_STREAM("[PEAK_CAM]: EXCEPTION: " << e.what());
             // ROS_ERROR("[PEAK_CAM]: Acquisition loop stopped, device may be disconnected!");
             // ROS_ERROR("[PEAK_CAM]: No device reset available");
