@@ -1,7 +1,4 @@
 
-// Copyright (c) 2020, Sherif Nekkah 
-// All rights reserved. 
-// 
 // DISCLAMER:
 //
 //
@@ -181,9 +178,6 @@ void Peak_Cam::setDeviceParameters()
         m_nodeMapRemoteDevice->FindNode<peak::core::nodes::BooleanNode>("PtpSlaveOnly")->SetValue(peak_params.PtpSlaveOnly);
 
         //Chris DEBUG
-        //bool value = nodeMapRemoteDevice->FindNode<peak::core::nodes::BooleanNode>("PtpSlaveOnly")->Value();
-        //nodeMapRemoteDevice->FindNode<peak::core::nodes::BooleanNode>("PtpSlaveOnly")->SetValue(true);
-        //nodeMapRemoteDevice->FindNode<peak::core::nodes::BooleanNode>("SignalMultiplierEnable")->SetValue(false);
         ROS_INFO_STREAM("[PEAK_CAM]: SignalMultiplierEnable is set to '" << peak_params.SignalMultiplierEnable << "'");
         ROS_INFO_STREAM("[PEAK_CAM]: PtpEnable is set to '" << peak_params.PtpEnable << "'");
         ROS_INFO_STREAM("[PEAK_CAM]: PtpSlaveOnly is set to '" << peak_params.PtpSlaveOnly << "'");
@@ -295,11 +289,6 @@ void Peak_Cam::setDeviceParameters()
             m_nodeMapRemoteDevice->FindNode<peak::core::nodes::FloatNode>("TriggerDelay")->SetValue(91000);
             m_nodeMapRemoteDevice->FindNode<peak::core::nodes::EnumerationNode>("TriggerSelector")->SetCurrentEntry("ExposureEnd");
             
-
-            //m_nodeMapRemoteDevice->FindNode<peak::core::nodes::EnumerationNode>("TriggerMode")->SetCurrentEntry("Off");
-            //m_nodeMapRemoteDevice->FindNode<peak::core::nodes::EnumerationNode>("TriggerActivation")->SetCurrentEntry(peak_params.TriggerActivation);
-            //m_nodeMapRemoteDevice->FindNode<peak::core::nodes::IntegerNode>("TriggerDivider")->SetValue(peak_params.TriggerDivider);
-            //m_nodeMapRemoteDevice->FindNode<peak::core::nodes::EnumerationNode>("TriggerSource")->SetCurrentEntry(peak_params.TriggerSource);
             ROS_INFO_STREAM("[PEAK_CAM]: No AcquisitionFrameRate is set, camera is expected to be externally triggered by " << peak_params.TriggerSource << " on " << peak_params.TriggerActivation);
             ROS_INFO_STREAM("[PEAK_CAM]: TriggerDivider is set to " << peak_params.TriggerDivider);
             ROS_WARN_STREAM("[PEAK_CAM]: Make sure resulting trigger rate stays below " << linkRate << " Hz to avoid latency and buffer overflows!");
@@ -371,15 +360,6 @@ void Peak_Cam::acquisitionLoop()
                     ROS_INFO_STREAM("[PEAK_CAM]: PTP connected successfully! Acquisition started!");
                     double frame_val = m_nodeMapRemoteDevice->FindNode<peak::core::nodes::FloatNode>("AcquisitionFrameRateTarget")->Value();
                     ROS_INFO_STREAM("[PEAK_CAM]: AcquisitionFrameRateTarget is now '" << frame_val << "'");
-                    //int64_t timestmp = m_nodeMapRemoteDevice->FindNode<peak::core::nodes::IntegerNode>("ChunkExposureTriggerTimestamp")->Value();
-                    //ROS_INFO_STREAM("[PEAK_CAM]: Timestamp is '" << timestmp << "'");
-                    
-                    // bool chunk_md_act = m_nodeMapRemoteDevice->FindNode<peak::core::nodes::BooleanNode>("ChunkModeActive")->Value();
-                    // ROS_INFO_STREAM("[PEAK_CAM]: ChunkModeActive is set to '" << chunk_md_act << "'");
-                    // std::string chunk_selector = m_nodeMapRemoteDevice->FindNode<peak::core::nodes::EnumerationNode>("ChunkSelector")->CurrentEntry()->SymbolicValue();
-                    // ROS_INFO_STREAM("[PEAK_CAM]: ChunkSelector is set to '" << chunk_selector << "'");
-                    // bool chunk_en = m_nodeMapRemoteDevice->FindNode<peak::core::nodes::BooleanNode>("ChunkEnable")->Value();
-                    // ROS_INFO_STREAM("[PEAK_CAM]: ChunkEnable is set to '" << chunk_en << "'");
                 }
                 else
                 {
@@ -467,19 +447,6 @@ void Peak_Cam::acquisitionLoop()
             ROS_ERROR("[PEAK_CAM]: No device reset available");
             ROS_ERROR("[PEAK_CAM]: Restart peak cam node!");
             acquisitionLoop_running = false;
-        
-            // }
-            // else
-            // {
-            //     banner = 1;
-            //     ROS_INFO_STREAM_ONCE("[PEAK_CAM]: Waiting for PTP ... ...");
-            // };
-            // ROS_ERROR_STREAM("[PEAK_CAM]: EXCEPTION: " << e.what());
-            // ROS_ERROR("[PEAK_CAM]: Acquisition loop stopped, device may be disconnected!");
-            // ROS_ERROR("[PEAK_CAM]: No device reset available");
-            // ROS_ERROR("[PEAK_CAM]: Restart peak cam node!");
-            
-
         }        
     }
 }
