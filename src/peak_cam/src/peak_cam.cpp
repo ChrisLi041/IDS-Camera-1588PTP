@@ -1,4 +1,4 @@
-// ***Modified by Chris Li w/ added 1588 PTP for synchronization***
+// ***Modified by Chris Li w/ added 1588 PTP for synchronization purpose***
 // Original from Copyright (c) 2020, Sherif Nekkah 
 // DISCLAMER:
 //
